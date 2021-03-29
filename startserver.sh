@@ -14,14 +14,14 @@ if [[ $(cat server-setup-config.yaml | grep 'ramDisk:' | awk 'BEGIN {FS=":"}{pri
     DO_RAMDISK=1
 fi
 
-if [ ! -f serverstarter-1.2.7.jar ]; then
-    URL="https://github.com/BloodyMods/ServerStarter/releases/download/v1.2.7/serverstarter-1.2.7.jar"
+if [ ! -f go-mc-server-starter ]; then
+    URL="https://github.com/Strange-Account/go-mc-server-starter/releases/download/v0.0.1/go-mc-server-starter-v0.0.1-linux-386.tar.gz"
     echo "Downloading ${URL}"
-    wget -O serverstarter-1.2.7.jar "${URL}"
+    curl -s -L ${URL} | tar xvz
 fi
 
 echo "Starting serverstarter"
-java -d64 -jar serverstarter-1.2.7.jar
+/opt/minecraft/serverdata/go-mc-server-starter
 
 if [[ $DO_RAMDISK -eq 1 ]]; then
     echo "RAM disk configured. Restoring world folder ${SAVE_DIR}"

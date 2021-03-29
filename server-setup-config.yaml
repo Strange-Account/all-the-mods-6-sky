@@ -1,10 +1,10 @@
 # Version of the specs, only for internal usage if this format should ever change
-_specver: 1
+_specver: 2
 
 # modpack related settings, changes the supposed to change the visual appearance of the launcher
 modpack:
   # Name of the mod pack, that is displayed in various places where it fits
-  name: All the Mods 6
+  name: All the Mods 6 To The Sky
 
   # Description
   description: Kitchen sink from the sky by oly2o6 and whitePhant0m
@@ -16,16 +16,33 @@ install:
   # version of minecraft, needs the exact version
   mcVersion: 1.16.5
 
-  # exact version of forge that is supposed to be used
+  # exact version of forge or fabric that is supposed to be used
   # if this value is a null value so ( ~, null, or "" ) then the version from the mod pack is going to be used
-  forgeVersion: ~
+  loaderVersion: ~
 
   # If a custom installer is supposed to used, specify the url here: (Otherwise put "", ~ or null here)
-  forgeInstallerUrl: ~
+  # supports variables: {{@loaderversion@}} and {{@mcversion@}}
+  # For forge: "http://files.minecraftforge.net/maven/net/minecraftforge/forge/{{@mcversion@}}-{{@loaderversion@}}/forge-{{@mcversion@}}-{{@loaderversion@}}-installer.jar"
+  # For Fabric: "https://maven.fabricmc.net/net/fabricmc/fabric-installer/{{@loaderversion@}}/fabric-installer-{{@loaderversion@}}.jar"
+  installerUrl: ~
+
+  # Installer Arguments
+  # These Arguments have to be passed to the installer
+  #
+  # For Fabric:
+  # installerArguments:
+  #   - "-downloadMinecraft"
+  #   - "server"
+  #
+  # For Forge:
+  # installerArguments:
+  #   - "--installServer"
+  installerArguments:
+    - "--installServer"
 
   # Link to where the file where the modpack can be distributed
   # This supports loading from local files as well for most pack types if there is file://{PathToFile} in the beginning
-  modpackUrl: https://media.forgecdn.net/files/3247/94/All+the+Mods+6+Sky-1.0.4.zip
+  modpackUrl: https://media.forgecdn.net/files/3252/330/ATM6+to+the+Sky-1.0.5.zip
 
   # This is used to specify in which format the modpack is distributed, the server launcher has to handle each individually if their format differs
   # current supported formats:
@@ -58,6 +75,7 @@ install:
       - 271740
       - 428199
       - 431430
+      - 460871
 
 
   # The base path where the server should be installed to, ~ for current path
@@ -74,10 +92,8 @@ install:
   # This makes the program check the folder for whether it is supposed to use the
   checkFolder: yes
 
-  # Whether to install Forge or not, should always be yes/true unless you only want to install the pack
-  installForge: yes
-
-
+  # Whether to install the Loader (Forge or Fabric) or not, should always be yes/true unless you only want to install the pack
+  installLoader: yes
 
 # settings regarding the launching of the pack
 launch:
@@ -103,22 +119,33 @@ launch:
 
   # Time a crash should be still accounted for in the {crashLimit}
   # syntax is either [number]h or [number]min or [number]s
-  crashTimer: 60min
+  crashTimer: 60m
 
   # Arguments that need to go before the 'java' argument, something like linux niceness
   # This is only a string, not a list.
   preJavaArgs: ~
 
+  # Start File Name, variables: {{@loaderversion@}} and {{@mcversion@}}
+  # This has to be the name the installer spits out
+  # For Forge 1.13: "forge-{{@mcversion@}}-{{@loaderversion@}}-universal.jar"
+  # For Fabric: "fabric-server-launch.jar"
+  startFile: "forge-{{@mcversion@}}-{{@loaderversion@}}.jar"
+
+  # In case you have multiple javas installed you can add a absolute path to it here
+  # if the value is "", null, or ~ then 'java' from PATH is going to be used
+  # Example: "\"C:/Program Files/Java/jre1.8.0_201/bin/java.exe\""
+  forcedJavaPath: ~
+
   # Java args that are supposed to be used when the server launches
   # keep in mind java args often need ' - ' in front of it to work, use clarifying parentheses to make sure it uses it correctly
   javaArgs:
-    - "-d64"
+#    - "-d64"
     - "-server"
     - "-XX:+AggressiveOpts"
     - "-XX:ParallelGCThreads=4"
     - "-XX:+UseConcMarkSweepGC"
     - "-XX:+UnlockExperimentalVMOptions"
-    - "-XX:+UseParNewGC"
+#    - "-XX:+UseParNewGC"
     - "-XX:+ExplicitGCInvokesConcurrent"
     - "-XX:MaxGCPauseMillis=10"
     - "-XX:GCPauseIntervalMillis=50"
