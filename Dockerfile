@@ -3,7 +3,7 @@ FROM openjdk:8-jre-alpine
 
 # Needed by our code
 RUN apk --update upgrade && \
-    apk add bash curl htop && \
+    apk add bash curl htop tini && \
     apk add --no-cache python3 py3-pip icu-libs shadow && \
     pip3 install watchdog && \
     wget https://raw.githubusercontent.com/phusion/baseimage-docker/9f998e1a09bdcb228af03595092dbc462f1062d0/image/bin/setuser -O /sbin/setuser && \
@@ -28,4 +28,5 @@ ENV USER_ID 0
 ENV GROUP_ID 0
 ENV UMASK 0000
 
+ENTRYPOINT ["tini", "--"]
 CMD /usr/local/bin/runas.sh "$USER_ID" "$GROUP_ID" "$UMASK" /opt/minecraft/startserver.sh

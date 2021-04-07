@@ -21,7 +21,7 @@ if [ ! -f go-mc-server-starter ]; then
 fi
 
 echo "Starting serverstarter"
-/opt/minecraft/serverdata/go-mc-server-starter
+exec /opt/minecraft/serverdata/go-mc-server-starter
 
 if [[ $DO_RAMDISK -eq 1 ]]; then
     echo "RAM disk configured. Restoring world folder ${SAVE_DIR}"
