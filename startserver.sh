@@ -1,7 +1,9 @@
 #!/bin/bash
 DO_RAMDISK=0
-if [ ! -f server-setup-config.yaml ]; then
-    echo "No server-setup-config.yaml - copying from image"
+if [[ -f server-setup-config.yaml ]] && [[ -f serverstarter.lock ]]; then
+    echo "Found existing installation"
+else
+    echo "No server-setup-config.yaml or serverstarter reset - copying from image"
     cp /opt/minecraft/server-setup-config.yaml /opt/minecraft/serverdata/
 fi
 
@@ -15,7 +17,7 @@ if [[ $(cat server-setup-config.yaml | grep 'ramDisk:' | awk 'BEGIN {FS=":"}{pri
 fi
 
 if [ ! -f go-mc-server-starter ]; then
-    URL="https://github.com/Strange-Account/go-mc-server-starter/releases/download/v0.0.1/go-mc-server-starter-v0.0.1-linux-386.tar.gz"
+    URL="https://github.com/Strange-Account/go-mc-server-starter/releases/download/v0.0.3/go-mc-server-starter-v0.0.3-linux-386.tar.gz"
     echo "Downloading ${URL}"
     curl -s -L ${URL} | tar xvz
 fi
