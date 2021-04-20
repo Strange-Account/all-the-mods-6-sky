@@ -23,7 +23,6 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        tags: latest
     - name: Add latest tag
       uses: tinact/docker.image-retag@1.0.2
       with:
