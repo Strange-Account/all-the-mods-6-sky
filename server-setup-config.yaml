@@ -1,13 +1,13 @@
-# Version of the specs, only for internal usage if this format should ever change
+# Version of the specs, only for internal usage if this format should ever change drastically
 _specver: 2
 
 # modpack related settings, changes the supposed to change the visual appearance of the launcher
 modpack:
   # Name of the mod pack, that is displayed in various places where it fits
-  name: All the Mods 6 To The Sky
+  name: All the Mods 6 sky
 
   # Description
-  description: Kitchen sink from the sky by oly2o6 and whitePhant0m
+  description: Kitchen sink goes to the sky (By oly2o6 and the ATM team)
 
 
 
@@ -24,26 +24,31 @@ install:
   # supports variables: {{@loaderversion@}} and {{@mcversion@}}
   # For forge: "http://files.minecraftforge.net/maven/net/minecraftforge/forge/{{@mcversion@}}-{{@loaderversion@}}/forge-{{@mcversion@}}-{{@loaderversion@}}-installer.jar"
   # For Fabric: "https://maven.fabricmc.net/net/fabricmc/fabric-installer/{{@loaderversion@}}/fabric-installer-{{@loaderversion@}}.jar"
-  installerUrl: ~
+  installerUrl: http://files.minecraftforge.net/maven/net/minecraftforge/forge/{{@mcversion@}}-{{@loaderversion@}}/forge-{{@mcversion@}}-{{@loaderversion@}}-installer.jar
 
   # Installer Arguments
   # These Arguments have to be passed to the installer
   #
   # For Fabric:
   # installerArguments:
-  #   - "-downloadMinecraft"
   #   - "server"
+  #   - "-downloadMinecraft"
+  #
+  # For Fabric if you want to use snapshot version:
+  # installerArguments:
+  #   - "server"
+  #   - "-mcversion 20w07a"
+  #   - "-downloadMinecraft"
   #
   # For Forge:
   # installerArguments:
   #   - "--installServer"
   installerArguments:
-    - "--installServer"
+   - "--installServer"
 
   # Link to where the file where the modpack can be distributed
   # This supports loading from local files as well for most pack types if there is file://{PathToFile} in the beginning
-  modpackUrl: https://media.forgecdn.net/files/3292/497/All+the+Mods+6+Sky-1.0.8.zip
-
+  modpackUrl: https://media.forgecdn.net/files/3295/908/All+the+Mods+6+-+To+the+Sky-1.0.9.zip
   # This is used to specify in which format the modpack is distributed, the server launcher has to handle each individually if their format differs
   # current supported formats:
   # - curseforge or curse
@@ -76,7 +81,6 @@ install:
       - 428199
       - 431430
 
-
   # The base path where the server should be installed to, ~ for current path
   baseInstallPath: ~
 
@@ -90,12 +94,21 @@ install:
     - resources/**
     - packmenu/**
     - openloader/resources/**
-    
+
+
+
   # This makes the program check the folder for whether it is supposed to use the
   checkFolder: yes
 
   # Whether to install the Loader (Forge or Fabric) or not, should always be yes/true unless you only want to install the pack
   installLoader: yes
+
+  # Sponge bootstrapper jar URL
+  # Only needed if you have spongefix enabled
+  spongeBootstrapper: https://github.com/simon816/SpongeBootstrap/releases/download/v0.7.1/SpongeBootstrap-0.7.1.jar
+
+
+
 
 # settings regarding the launching of the pack
 launch:
@@ -129,9 +142,10 @@ launch:
 
   # Start File Name, variables: {{@loaderversion@}} and {{@mcversion@}}
   # This has to be the name the installer spits out
-  # For Forge 1.13: "forge-{{@mcversion@}}-{{@loaderversion@}}-universal.jar"
+  # For Forge 1.12-: "forge-{{@mcversion@}}-{{@loaderversion@}}-universal.jar"
+  # For Forge 1.13+: "forge-{{@mcversion@}}-{{@loaderversion@}}.jar"
   # For Fabric: "fabric-server-launch.jar"
-  startFile: "forge-{{@mcversion@}}-{{@loaderversion@}}.jar"
+  startFile: forge-{{@mcversion@}}-{{@loaderversion@}}.jar
 
   # In case you have multiple javas installed you can add a absolute path to it here
   # if the value is "", null, or ~ then 'java' from PATH is going to be used
@@ -140,6 +154,8 @@ launch:
 
   # Java args that are supposed to be used when the server launches
   # keep in mind java args often need ' - ' in front of it to work, use clarifying parentheses to make sure it uses it correctly
+  # reference: https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/
+  # tested on Java 8 and 11
   javaArgs:
     - "-XX:+UseG1GC"
     - "-XX:+ParallelRefProcEnabled"
